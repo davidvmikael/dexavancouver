@@ -18,7 +18,7 @@ Each offer folder has `index.html` (landing + form), `book.html` (Acuity booking
 
 ## What's here
 - `site/`: the website. It's plain HTML/CSS/JS with no build step; Cloudflare's output directory is `site`.
-- `functions/api/lead.js`: the lead relay at `/api/lead`. It sends leads to GoHighLevel (contact, tags, consent note) and needs the Cloudflare variables `GHL_TOKEN` and `GHL_LOCATION_ID`.
+- `functions/api/lead.js`: the lead relay at `/api/lead`. It sends leads to GoHighLevel (contact, tags, consent note) and needs the Cloudflare variables `GHL_TOKEN` and `GHL_LOCATION_ID`. `GHL_SOURCE` (`Facebook | DexaFit Vancouver`) sets the contact source and `GHL_TAGS` (`location:vancouver,source:meta-ads`) adds tags to every lead. After changing a variable, redeploy: variables only apply to new deployments.
 - `GO-LIVE.md`: go-live steps.
 - `GHL-SETUP.md`: detailed GoHighLevel setup (tags, workflows, testing).
 
