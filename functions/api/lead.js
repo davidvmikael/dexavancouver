@@ -9,12 +9,17 @@
  *   ALLOWED_ORIGINS  optional  Comma-separated extra origins allowed to post,
  *                              e.g. "https://westport-funnels.pages.dev". The
  *                              site's own origin is always allowed.
+ *   GHL_SOURCE       optional  Contact source, e.g. "Facebook | DexaFit Vancouver"
+ *                              (default: "Funnel: <funnel id>").
+ *   GHL_TAGS         optional  Comma-separated tags added to every lead, e.g.
+ *                              "location:vancouver,source:meta-ads".
  *
  * In GHL each lead becomes/updates a contact (matched on email/phone per the
  * location's duplicate settings) and gets tags:
  *   <funnel id>                 e.g. longevity-westport-dexa
  *   funnel-partial / funnel-complete / funnel-booked
  *   sms-consent                 only when the SMS box was ticked
+ *   GHL_TAGS                    the extra tags above, if set
  * plus a timeline note recording consent (wording, time, IP, page) at the
  * "complete" stage.
  */
@@ -101,7 +106,7 @@ export async function onRequestPost({ request, env }) {
     lastName: str(lead.lastName, 80) || undefined,
     email,
     phone: phone || undefined,
-    source: `Funnel: ${funnel}`,
+    source: str(env.GHL_SOURCE, 100) || `Funnel: ${funnel}`,
   };
 
   let contactId;
@@ -115,7 +120,8 @@ export async function onRequestPost({ request, env }) {
   }
 
   // Tags and the consent note are secondary: log failures, don't fail the lead.
-  const tags = [funnel, `funnel-${stage}`];
+  const extraTags = (env.GHL_TAGS || "").split(",").map((t) => t.trim()).filter(Boolean);
+  const tags = [funnel, `funnel-${stage}`, ...extraTags];
   if (lead.smsConsent && stage !== "partial") tags.push("sms-consent");
   const extras = [ghl(env, `/contacts/${contactId}/tags`, { tags })];
   if (stage === "complete") extras.push(ghl(env, `/contacts/${contactId}/notes`, { body: consentNote(lead, request) }));

@@ -47,12 +47,14 @@ Why: each visitor is sent to GHL up to 3 times (email step → phone step → bo
 
 You don't create any of this; it appears automatically with the first real lead.
 
-**Contact fields:** first name, last name, email, phone (`+1…`), and **Source** = `Funnel: <offer>`.
+**Contact fields:** first name, last name, email, phone (`+1…`), and **Source** = `Facebook | DexaFit Vancouver` (Cloudflare variable `GHL_SOURCE`).
 
 **Tags:**
 
 | Tag | Added when |
 | --- | --- |
+| `location:vancouver` | Every lead (Cloudflare variable `GHL_TAGS`) |
+| `source:meta-ads` | Every lead (Cloudflare variable `GHL_TAGS`) |
 | `dexafit-vancouver` | Lead came from the Vancouver new client special (DEXA scan, $127) |
 | `funnel-partial` | They entered their email (step 3) |
 | `funnel-complete` | They entered their phone and accepted the privacy policy (step 4) |
@@ -129,7 +131,7 @@ For emails from workflows to land in inboxes, not spam, send from a domain you'v
 
 1. Go through the funnel with your real email and phone, and tick the SMS box.
 2. **Contacts:** you appear once (not three times) with these tags:
-   - `dexafit-vancouver`
+   - `location:vancouver`, `source:meta-ads`, `dexafit-vancouver`
    - `funnel-partial`
    - `funnel-complete`
    - `sms-consent`

@@ -28,13 +28,15 @@ Follow **GHL-SETUP.md** steps 1–3:
    | `GHL_TOKEN` | token, set as type **Secret** |
    | `GHL_LOCATION_ID` | Location ID |
    | `ALLOWED_ORIGINS` | your `https://….pages.dev` address, with no trailing `/` |
+   | `GHL_SOURCE` | `Facebook \| DexaFit Vancouver` |
+   | `GHL_TAGS` | `location:vancouver,source:meta-ads` |
 
 5. **Deployments → ⋯ → Retry deployment.**
 
 ## 3. Test on the pages.dev address
 1. **`/api/lead` opens without a "not found" page.** That means the relay is deployed.
 2. **`/` and `/new-client/` show the right headline and price.**
-3. **A full run through the funnel creates one GHL contact.** It should have the tag `dexafit-vancouver`, `funnel-partial`, `funnel-complete` and, if ticked, `sms-consent`, plus a consent note.
+3. **A full run through the funnel creates one GHL contact.** It should have Source `Facebook | DexaFit Vancouver`, the tags `location:vancouver`, `source:meta-ads`, `dexafit-vancouver`, `funnel-partial`, `funnel-complete` and, if ticked, `sms-consent`, plus a consent note.
 4. **The booking page shows the Acuity calendar** with your name, email and phone filled in.
 5. **GTM Preview (Tag Assistant)** shows the container loading on every page, then `funnel_lead` when the calendar page opens after the form. Meta Test Events should show `Lead` at that moment (see part 5).
 6. **After a test booking, Acuity's redirect opens `/thank-you`.** The contact gets `funnel-booked`, and GTM shows `funnel_schedule`.
